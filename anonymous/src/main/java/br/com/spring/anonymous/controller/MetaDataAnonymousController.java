@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.spring.anonymous.entity.MetaDataAnonymous;
 import br.com.spring.anonymous.repository.MetaDataAnonymousRepository;
+import br.com.spring.anonymous.repository.TaskTypeAnonymousRepository;
 
 
 @RestController
@@ -19,11 +20,14 @@ public class MetaDataAnonymousController {
 	
 	@Autowired
     private MetaDataAnonymousRepository _MetaDataAnonymousRepository;
+	@Autowired
+    private TaskTypeAnonymousRepository _TaskTypeAnonymousRepository;
+	
 	
 	@CrossOrigin
 	@GetMapping("/types")
     public List<String> GetDistinct() {
-        return _MetaDataAnonymousRepository.carregaTypes();
+        return _TaskTypeAnonymousRepository.carregaTypes();
     }
 	
 	@CrossOrigin

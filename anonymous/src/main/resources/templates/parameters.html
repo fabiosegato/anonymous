@@ -1,0 +1,41 @@
+<html>
+<title>Anonymous FrontEnd</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="js/models/Settings.js"></script>
+<script src="js/hellper/CreateDynamicTable.js"></script>
+<!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+<!-- <link rel="stylesheet" href="css/bootstrap-theme.css"> -->
+<link rel="stylesheet" href="css/tailwind.css">
+<link href='https://unpkg.com/css.gg@2.0.0/icons/css/trash.css' rel='stylesheet'>
+<link href='https://unpkg.com/css.gg@2.0.0/icons/css/add.css' rel='stylesheet'>
+</head>
+
+<body class="bg-slate-50">
+<div th:replace="navBar :: navBar"></div>
+<div class="p-5 bg-slate-50">
+      <h3 class="text-3xl font-semibold m-5">Parameters</h3>
+    <div class="m-5 relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400" id="tableHeader">
+                <th scope="col" class="px-6 py-3">"${element}"</th>
+                <th scope="col" class="px-6 py-3">"${element}"</th>
+                <th scope="col" class="px-6 py-3">"${element}"</th>
+                <th scope="col" class="px-6 py-3">"${element}"</th>
+                <th scope="col" class="px-6 py-3">"${element}"</th>
+            </thead>
+            <tbody id="tableLines">
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+    <script>
+        let settings = new  Settings("1","1","1");
+        let createTable = new CreateDynamicTable(settings);
+        console.log(createTable.createTable());
+    </script>
+</div>
+</body>
+
+</html>
