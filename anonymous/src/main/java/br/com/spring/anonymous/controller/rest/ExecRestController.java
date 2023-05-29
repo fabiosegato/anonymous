@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller.dto;
+package br.com.spring.anonymous.controller.rest;
 
 import java.util.Collection;
 

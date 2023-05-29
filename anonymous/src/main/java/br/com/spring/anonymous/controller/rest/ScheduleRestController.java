@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller.dto;
+package br.com.spring.anonymous.controller.rest;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
