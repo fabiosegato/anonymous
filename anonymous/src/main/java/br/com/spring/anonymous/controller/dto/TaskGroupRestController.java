@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import java.net.URI;
 import java.util.List;
@@ -23,7 +23,7 @@ import br.com.spring.anonymous.repository.TaskGroupRepository;
 
 @RestController
 @RequestMapping("/taskgroup")
-public class TaskGroupController {
+public class TaskGroupRestController {
 
 	@Autowired
 	private TaskGroupRepository _TaskGroupRepository;

@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import br.com.spring.anonymous.repository.ScheduleRepository;
 
 @RestController
 @RequestMapping("/schedule")
-public class ScheduleController {
+public class ScheduleRestController {
 
 	@Autowired
 	private ScheduleRepository _ScheduleRepository;

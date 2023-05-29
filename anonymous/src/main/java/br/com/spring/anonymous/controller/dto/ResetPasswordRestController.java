@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import javax.validation.Valid;
 

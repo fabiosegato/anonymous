@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ import br.com.spring.anonymous.repository.ExecRepository;
 
 @RestController
 @RequestMapping("/exec")
-public class ExecController {
+public class ExecRestController {
 
 	@Autowired
 	private ExecRepository _ExecRepository;

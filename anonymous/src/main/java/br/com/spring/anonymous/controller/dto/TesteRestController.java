@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import java.net.URI;
 import java.util.List;

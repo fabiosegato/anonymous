@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import br.com.spring.anonymous.repository.TaskTypeAnonymousRepository;
 
 @RestController
 @RequestMapping("/metadata")
-public class MetaDataAnonymousController {
+public class MetaDataAnonymousRestController {
 	
 	@Autowired
     private MetaDataAnonymousRepository _MetaDataAnonymousRepository;

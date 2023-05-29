@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import br.com.spring.anonymous.repository.TaskGroupItensRepository;
 
 @RestController
 @RequestMapping("/taskgroupitem")
-public class TaskGroupItensController {
+public class TaskGroupItensRestController {
 
 	@Autowired
 	private TaskGroupItensRepository _TaskGroupItensRepository;

@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.controller;
+package br.com.spring.anonymous.controller.dto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import br.com.spring.anonymous.repository.SettingsRepository;
 
 @RestController
 @RequestMapping("/settings")
-public class SettingsContorller {
+public class SettingsRestContorller {
 
 	@Autowired
 	private SettingsRepository _SettingsRepository;
