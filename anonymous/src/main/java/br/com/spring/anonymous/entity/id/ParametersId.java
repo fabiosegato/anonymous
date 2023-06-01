@@ -2,7 +2,6 @@ package br.com.spring.anonymous.entity.id;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class ParametersId implements Serializable{	
   
