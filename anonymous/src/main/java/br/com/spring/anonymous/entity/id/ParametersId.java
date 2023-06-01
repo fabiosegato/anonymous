@@ -1,6 +1,7 @@
 package br.com.spring.anonymous.entity.id;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ParametersId implements Serializable{	
@@ -10,7 +11,7 @@ public class ParametersId implements Serializable{
 	private String process;
 	private String jobName; 
     private Integer seqId;
-    private Date dateReference;
+    private LocalDateTime dateReference;
     private String institutionNumber;
     private String outputType;
 
@@ -19,7 +20,7 @@ public class ParametersId implements Serializable{
     
 	
 	
-	public ParametersId(String process, String jobName, Integer seqId, Date dateReference, String institutionNumber,
+	public ParametersId(String process, String jobName, Integer seqId, LocalDateTime dateReference, String institutionNumber,
 			String outputType) {
 		this.process = process;
 		this.jobName = jobName;
@@ -51,10 +52,10 @@ public class ParametersId implements Serializable{
 		this.seqId = seqId;
 	}
 	
-	public Date getDateReference() {
+	public LocalDateTime getDateReference() {
 		return dateReference;
 	}
-	public void setDateReference(Date dateReference) {
+	public void setDateReference(LocalDateTime dateReference) {
 		this.dateReference = dateReference;
 	}
 	

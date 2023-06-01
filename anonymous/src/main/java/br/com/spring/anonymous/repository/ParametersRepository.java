@@ -20,7 +20,7 @@ public interface ParametersRepository extends JpaRepository<Parameters, String> 
 			+ "from TAB_PARAMETERS t "
 			+ "where (t.process IS NULL or t.process like %:process%) and (:institutionNumber IS NULL or t.institution_Number = :institutionNumber) "
 			+ "and (:dateReference IS NULL or t.date_reference = to_date(:dateReference,'YYYY-MM-DD'))"
-			+ "and rownum <=20",nativeQuery = true)
+			+ "and rownum <= 10",nativeQuery = true)
 	List<Parameters> carregaParameters(String process,String institutionNumber,String dateReference);
 	
 

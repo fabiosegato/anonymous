@@ -1,14 +1,12 @@
 package br.com.spring.anonymous.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import br.com.spring.anonymous.entity.id.ParametersId;
 
@@ -26,32 +24,27 @@ public class Parameters {
 	private String jobName;//JOB_NAME
 	
 	@Id
-	@Column(name="DATE_REFERENCE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateReference;//DATE_REFERENCE
+	@Column(name="DATE_REFERENCE",columnDefinition = "TIMESTAMP")
+	private LocalDateTime dateReference;//DATE_REFERENCE
 	
 	@Id
 	@Column(name="SEQ_ID")
 	private Integer seqId;//SEQ_ID
 	
-	@Column(name="FROM_PARAMETER")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fromParameter;//FROM_PARAMETER
+	@Column(name="FROM_PARAMETER",columnDefinition = "TIMESTAMP")
+	private LocalDateTime  fromParameter;//FROM_PARAMETER
 	
-	@Column(name="TO_PARAMETER")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date toParameter;//TO_PARAMETER
+	@Column(name="TO_PARAMETER",columnDefinition = "TIMESTAMP")
+	private LocalDateTime toParameter;//TO_PARAMETER
 	
 	@Column(name="STATUS")
 	private String status;//STATUS
 	
-	@Column(name="DATE_START")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateStart;//DATE_START
+	@Column(name="DATE_START",columnDefinition = "TIMESTAMP")
+	private LocalDateTime dateStart;//DATE_START
 	
-	@Column(name="DATE_END")	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateEnd;//DATE_END
+	@Column(name="DATE_END",columnDefinition = "TIMESTAMP")	
+	private LocalDateTime dateEnd;//DATE_END
 	
 	@Column(name="DURATION")
 	private Integer duration;//DURATION
@@ -66,8 +59,8 @@ public class Parameters {
 	
 	
 
-	public Parameters(String process, String jobName, Date dateReference, Integer seqId, Date fromParameter,
-			Date toParameter, String status, Date dateStart, Date dateEnd, Integer duration, String outputType,
+	public Parameters(String process, String jobName, LocalDateTime dateReference, Integer seqId, LocalDateTime fromParameter,
+			LocalDateTime toParameter, String status, LocalDateTime dateStart, LocalDateTime dateEnd, Integer duration, String outputType,
 			String institutionNumber) {
 		this.process = process;
 		this.jobName = jobName;
@@ -101,11 +94,11 @@ public class Parameters {
 		this.jobName = jobName;
 	}
 
-	public Date getDateReference() {
+	public LocalDateTime getDateReference() {
 		return dateReference;
 	}
 
-	public void setDateReference(Date dateReference) {
+	public void setDateReference(LocalDateTime dateReference) {
 		this.dateReference = dateReference;
 	}
 
@@ -117,19 +110,19 @@ public class Parameters {
 		this.seqId = seqId;
 	}
 
-	public Date getFromParameter() {
+	public LocalDateTime getFromParameter() {
 		return fromParameter;
 	}
 
-	public void setFromParameter(Date fromParameter) {
+	public void setFromParameter(LocalDateTime fromParameter) {
 		this.fromParameter = fromParameter;
 	}
 
-	public Date getToParameter() {
+	public LocalDateTime getToParameter() {
 		return toParameter;
 	}
 
-	public void setToParameter(Date toParameter) {
+	public void setToParameter(LocalDateTime toParameter) {
 		this.toParameter = toParameter;
 	}
 
@@ -141,19 +134,19 @@ public class Parameters {
 		this.status = status;
 	}
 
-	public Date getDateStart() {
+	public LocalDateTime getDateStart() {
 		return dateStart;
 	}
 
-	public void setDateStart(Date dateStart) {
+	public void setDateStart(LocalDateTime dateStart) {
 		this.dateStart = dateStart;
 	}
 
-	public Date getDateEnd() {
+	public LocalDateTime getDateEnd() {
 		return dateEnd;
 	}
 
-	public void setDateEnd(Date dateEnd) {
+	public void setDateEnd(LocalDateTime dateEnd) {
 		this.dateEnd = dateEnd;
 	}
 
