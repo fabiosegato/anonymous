@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.spring.anonymous.controller.dto.ProcedureResultDto;
 import br.com.spring.anonymous.entity.TaskGroup;
+import br.com.spring.anonymous.repository.StoredProceduresRepository;
 import br.com.spring.anonymous.repository.TaskGroupRepository;
 
 @RestController
@@ -27,6 +31,9 @@ public class TaskGroupRestController {
 
 	@Autowired
 	private TaskGroupRepository _TaskGroupRepository;
+	
+	@Autowired
+	private StoredProceduresRepository _StoredProceduresRepository;
 
 	@GetMapping
 	public List<TaskGroup> Get() {
@@ -41,38 +48,23 @@ public class TaskGroupRestController {
 		return ResponseEntity.created(uri).body(taskGroup);
 
 	}
-	
-	/*@SuppressWarnings("null")
+
 	@CrossOrigin
-	@PostMapping("/{taskGroup}/{taskGroupClone}")
-	public ResponseEntity<TaskGroup> Clone(@PathVariable(value = "taskGroup") String p_taskGroup,@PathVariable(value = "taskGroupClone") String p_taskGroupClone,
-			UriComponentsBuilder uriBuilder) {	
-		    
-		Optional<TaskGroup> taskGroup = _TaskGroupRepository.findById(p_taskGroup);
+	@PostMapping("/taskgroupClone")
+	public ResponseEntity<?> Clone(@RequestParam("taskGroup") String p_taskGroup,@RequestParam("taskGroupNew") String p_taskGroupNew) {
 		
-		if (taskGroup.isPresent()) {	
-			TaskGroup taskGroup2 = taskGroup.get();						
-			for (TaskGroupItens groupItens : taskGroup2.getGroupItens()) {	
-				List<Settings> settingsList = null;
+		ProcedureResultDto result =	_StoredProceduresRepository.cloneJob(p_taskGroup, p_taskGroupNew);
+		
+		Optional<String> errorCode = Optional.ofNullable(result.getErrorCode());
+		
+		if (errorCode.isPresent()) {
+			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	
-				for (Settings setting : groupItens.getConf().getSettings()) {
-					setting.setConfId(setting.getConfId().replace(p_taskGroup, p_taskGroupClone));	
-					settingsList.add(setting);
-				}
-				groupItens.getConf().setSettings(settingsList);
-				Conf conf = groupItens.getConf();
-				conf.setConfId(conf.getConfId().replace(p_taskGroup, p_taskGroupClone));
-				groupItens.setConf(conf);
-				
-				
-				
-			}
-			
-			
-		}		
-		
-		return ResponseEntity.ok().build();
-	}*/
+
+	}
 
 	@CrossOrigin
 	@DeleteMapping("/{taskGroup}")
@@ -97,7 +89,5 @@ public class TaskGroupRestController {
 		return _TaskGroupRepository.carregaTaskName(p_taskName.toUpperCase());
 
 	}
-	
-	
 
 }
