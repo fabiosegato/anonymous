@@ -15,7 +15,7 @@ class ControlController {
 		];
 
 
-		this.apiUrl = ' http://localhost:8080/restControl'; // Replace with your API endpoint
+		this.apiUrl = '/restControl'; // Replace with your API endpoint
 		this.grid = document.getElementById('grid');
 		this.gridBody = document.getElementById('gridBody');
 		this.editForm = document.getElementById('editForm');
