@@ -1,24 +1,22 @@
-class ParametersController {
+class JobController {
 
 
 	constructor() {
+		
 		this.columns = [
 			{ name: 'process', label: 'Process', type: 'text', required: true },
-			{ name: 'jobName', label: 'Job', type: 'text', required: true },
-			{ name: 'dateReference', label: 'Date', type: 'timestamp', required: true },
-			{ name: 'seqId', label: 'Seq ID', type: 'text', required: true },
-			{ name: 'fromParameter', label: 'From', type: 'timestamp', required: false },
-			{ name: 'toParameter', label: 'To', type: 'timestamp', required: false },
-			{ name: 'status', label: 'Status', type: 'text', required: false },
-			{ name: 'dateStart', label: 'Start', type: 'timestamp', required: false },
-			{ name: 'dateEnd', label: 'End', type: 'timestamp', required: false },
-			{ name: 'duration', label: 'Duration', type: 'text', required: false },
-			{ name: 'outputType', label: 'Output', type: 'text', required: true },
-			{ name: 'institutionNumber', label: 'Institution', type: 'text', required: true }
+			{ name: 'jobName', label: 'Job Name', type: 'text', required: true },
+			{ name: 'institutionNumber', label: 'institution Number', type: 'text', required: false },
+			{ name: 'jobGroup', label: 'job Group', type: 'text', required: false },
+			{ name: 'active', label: 'Flag active', type: 'text', required: false },
+			{ name: 'executionGroup', label: 'Exec Group', type: 'text', required: false },
+			{ name: 'executionOrder', label: 'Exec Order', type: 'text', required: false },
+			{ name: 'outPutType', label: 'Output ', type: 'text', required: false }
 			// Add more columns as needed
 		];
 
-		this.apiUrl = ' http://localhost:8080/restParameters'; // Replace with your API endpoint
+
+		this.apiUrl = ' http://localhost:8080/restJob'; // Replace with your API endpoint
 		this.grid = document.getElementById('grid');
 		this.gridBody = document.getElementById('gridBody');
 		this.editForm = document.getElementById('editForm');
@@ -56,10 +54,10 @@ class ParametersController {
 
 	fetchData() {
 		const processFilter = document.getElementById('process').value.trim();
-		const institutionFilter = document.getElementById('institution').value.trim();
-		const dateReferenceFilter = document.getElementById('dateReference').value.trim();
+		const jobNameFilter = document.getElementById('jobName').value.trim();
+		const institutionNumberFilter = document.getElementById('institutionNumber').value.trim();
 
-		const url = `${this.apiUrl}?process=${processFilter}&institution=${institutionFilter}&dateReference=${dateReferenceFilter}`;
+		const url = `${this.apiUrl}?process=${processFilter}&jobName=${jobNameFilter}&institutionNumber=${institutionNumberFilter}`;
 
 		fetch(url)
 			.then(response => response.json())
@@ -152,24 +150,17 @@ class ParametersController {
 
 
 	getItemById(itemId) {
-		// Fetch the item from the API or your data source
-		// Replace with your REST API request or data retrieval logic
-
 
 		const item = {
-			process: document.getElementById('process' + itemId).value,
+			process: document.getElementById('process' + itemId).value,			
 			jobName: document.getElementById('jobName' + itemId).value,
-			dateReference: document.getElementById('dateReference' + itemId).value,
-			seqId: document.getElementById('seqId' + itemId).value,
-			fromParameter: document.getElementById('fromParameter' + itemId).value,
-			toParameter: document.getElementById('toParameter' + itemId).value,
-			status: document.getElementById('status' + itemId).value,
-			dateStart: document.getElementById('dateStart' + itemId).value,
-			dateEnd: document.getElementById('dateEnd' + itemId).value,
-			duration: document.getElementById('duration' + itemId).value,
-			outputType: document.getElementById('outputType' + itemId).value,
 			institutionNumber: document.getElementById('institutionNumber' + itemId).value,
-
+			jobGroup: document.getElementById('jobGroup' + itemId).value,
+			active: document.getElementById('active' + itemId).value,
+			executionGroup: document.getElementById('executionGroup' + itemId).value,
+			executionOrder: document.getElementById('executionOrder' + itemId).value,	
+			outPutType: document.getElementById('outPutType' + itemId).value
+			
 		};
 
 		return item;
@@ -232,7 +223,7 @@ class ParametersController {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => {                      // first then()
+			.then(response => { 
 				if (!response.ok) {
 					return response.text().then(text => { throw new Error(text) })
 				}

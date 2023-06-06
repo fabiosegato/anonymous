@@ -10,7 +10,7 @@ class ControlController {
 			{ name: 'scheduleType', label: 'Schedule Type', type: 'text', required: true },
 			{ name: 'businessday', label: 'Business Day', type: 'text', required: false },
 			{ name: 'prmt1', label: 'PRMT 1', type: 'text', required: false },
-			{ name: 'daysQtd', label: 'Day´s Quantity', type: 'text', required: true }
+			{ name: 'daysQtd', label: 'Days', type: 'text', required: true }
 			// Add more columns as needed
 		];
 

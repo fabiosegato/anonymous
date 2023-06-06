@@ -1,4 +1,4 @@
-package br.com.spring.anonymous.entity;
+package br.com.spring.anonymous.controller.dto;
 
 public class Mensagem {
 

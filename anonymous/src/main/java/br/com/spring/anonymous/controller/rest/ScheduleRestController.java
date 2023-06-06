@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import br.com.spring.anonymous.entity.Mensagem;
+
+import br.com.spring.anonymous.controller.dto.Mensagem;
 import br.com.spring.anonymous.entity.Schedule;
 import br.com.spring.anonymous.repository.ScheduleRepository;
 
