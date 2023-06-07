@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ControlController {
 
 	@RequestMapping("/control")
-    public String resetPassword(){
+    public String control(){
 		return "control";
-    }
-	
+    }	
 }

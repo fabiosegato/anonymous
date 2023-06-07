@@ -11,84 +11,96 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CTR_AJ_COMMANDS")
 public class Command {
+	
+	
+	
+	public Command(String id, String cmdGroup, Integer cmdOrder, String dsc, String command, String ajType,
+			String atb01, String atb02, String atb03, String atb04, String atb05, String status) {
+		this.id = id;
+		this.cmdGroup = cmdGroup;
+		this.cmdOrder = cmdOrder;
+		this.dsc = dsc;
+		this.command = command;
+		this.ajType = ajType;
+		this.atb01 = atb01;
+		this.atb02 = atb02;
+		this.atb03 = atb03;
+		this.atb04 = atb04;
+		this.atb05 = atb05;
+		this.status = status;
+	}
 
+	public Command () {};
+	
+	
 	@Id
 	@Column(name="ID")
-	private String confId;
+	private String id;
 	
 	@Column(name="CMD_GROUP")
-	private String GroupName;
+	private String cmdGroup;
 	
 	@Column(name = "CMD_ORDER")
-	private int order;
+	private Integer cmdOrder;
 	
 	@Column(name = "DSC")
-	private String desc;
+	private String dsc;
 	
 	@Column(name = "COMMAND")
 	@Lob
 	private String command;
 	
 	@Column(name = "AJ_TYPE")
-	private String type;
+	private String ajType;
 	
 	@Column(name = "ATB_01")
-	private String Attirbute1;
+	private String atb01;
 	
 	@Column(name = "ATB_02")
-	private String Attirbute2;
+	private String atb02;
 	
 	@Column(name = "ATB_03")
-	private String Attirbute3;
+	private String atb03;
 	
 	@Column(name = "ATB_04")
-	private String Attirbute4;
+	private String atb04;
 	
 	@Column(name = "ATB_05")
-	private String Attirbute5;
+	private String atb05;
 	
 	@Column(name = "STATUS")
 	private String status = "A";
 
-	
-	public String getStatus() {
-		return this.status;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-	public String getConfId() {
-		return confId;
+	public String getId() {
+		return id;
 	}
 
-	public void setConfId(String confId) {
-		this.confId = confId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getGroupName() {
-		return GroupName;
+	public String getCmdGroup() {
+		return cmdGroup;
 	}
 
-	public void setGroupName(String groupName) {
-		GroupName = groupName;
+	public void setCmdGroup(String cmdGroup) {
+		this.cmdGroup = cmdGroup;
 	}
 
-	public int getOrder() {
-		return order;
+	public Integer getCmdOrder() {
+		return cmdOrder;
 	}
 
-	public void setOrder(int order) {
-		this.order = order;
+	public void setCmdOrder(Integer cmdOrder) {
+		this.cmdOrder = cmdOrder;
 	}
 
-	public String getDescription() {
-		return desc;
+	public String getDesc() {
+		return dsc;
 	}
 
-	public void setDescription(String description) {
-		desc = description;
+	public void setDesc(String dsc) {
+		this.dsc = dsc;
 	}
 
 	public String getCommand() {
@@ -99,52 +111,61 @@ public class Command {
 		this.command = command;
 	}
 
-	public String getType() {
-		return type;
+	public String getAjType() {
+		return ajType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setAjType(String ajType) {
+		this.ajType = ajType;
 	}
 
-	public String getAttirbute1() {
-		return Attirbute1;
+	public String getAtb01() {
+		return atb01;
 	}
 
-	public void setAttirbute1(String attirbute1) {
-		Attirbute1 = attirbute1;
+	public void setAtb01(String atb01) {
+		this.atb01 = atb01;
 	}
 
-	public String getAttirbute2() {
-		return Attirbute2;
+	public String getAtb02() {
+		return atb02;
 	}
 
-	public void setAttirbute2(String attirbute2) {
-		Attirbute2 = attirbute2;
+	public void setAtb02(String atb02) {
+		this.atb02 = atb02;
 	}
 
-	public String getAttirbute3() {
-		return Attirbute3;
+	public String getAtb03() {
+		return atb03;
 	}
 
-	public void setAttirbute3(String attirbute3) {
-		Attirbute3 = attirbute3;
+	public void setAtb03(String atb03) {
+		this.atb03 = atb03;
 	}
 
-	public String getAttirbute4() {
-		return Attirbute4;
+	public String getAtb04() {
+		return atb04;
 	}
 
-	public void setAttirbute4(String attirbute4) {
-		Attirbute4 = attirbute4;
+	public void setAtb04(String atb04) {
+		this.atb04 = atb04;
 	}
 
-	public String getAttirbute5() {
-		return Attirbute5;
+	public String getAtb05() {
+		return atb05;
 	}
 
-	public void setAttirbute5(String attirbute5) {
-		Attirbute5 = attirbute5;
+	public void setAtb05(String atb05) {
+		this.atb05 = atb05;
 	}
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+		
 }

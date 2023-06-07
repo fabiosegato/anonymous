@@ -4,11 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class ParametersController {
+public class CommandController {
 
-	@RequestMapping("/parameters")
-    public String parameters(){
-		return "parameters";
-    }
-	
+	@RequestMapping("/commands")
+    public String control(){
+		return "commands";
+    }	
 }

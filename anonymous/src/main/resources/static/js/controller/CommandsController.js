@@ -1,24 +1,25 @@
-class ParametersController {
-
+class CommandsController {
 
 	constructor() {
+
 		this.columns = [
-			{ name: 'process', label: 'Process', type: 'text', required: true },
-			{ name: 'jobName', label: 'Job', type: 'text', required: true },
-			{ name: 'dateReference', label: 'Date', type: 'timestamp', required: true },
-			{ name: 'seqId', label: 'Seq ID', type: 'text', required: true },
-			{ name: 'fromParameter', label: 'From', type: 'timestamp', required: false },
-			{ name: 'toParameter', label: 'To', type: 'timestamp', required: false },
-			{ name: 'status', label: 'Status', type: 'text', required: false },
-			{ name: 'dateStart', label: 'Start', type: 'timestamp', required: false },
-			{ name: 'dateEnd', label: 'End', type: 'timestamp', required: false },
-			{ name: 'duration', label: 'Duration', type: 'text', required: false },
-			{ name: 'outputType', label: 'Output', type: 'text', required: true },
-			{ name: 'institutionNumber', label: 'Institution', type: 'text', required: true }
+			{ name: 'id', label: 'Id', type: 'text', required: true },
+			{ name: 'cmdGroup', label: 'Group', type: 'text', required: false },
+			{ name: 'cmdOrder', label: 'Order', type: 'text', required: false },
+			{ name: 'dsc', label: 'Desc', type: 'text', required: false },
+			{ name: 'command', label: 'Command', type: 'textarea', required: false },
+			{ name: 'ajType', label: 'Type', type: 'text', required: false },
+			{ name: 'atb01', label: 'Attr 1', type: 'text', required: false },
+			{ name: 'atb02', label: 'Attr 2', type: 'text', required: false },
+			{ name: 'atb03', label: 'Attr 3', type: 'text', required: false },
+			{ name: 'atb04', label: 'Attr 4', type: 'text', required: false },
+			{ name: 'atb05', label: 'Attr 5', type: 'text', required: false },
+			{ name: 'status', label: 'Status', type: 'text', required: false }
 			// Add more columns as needed
 		];
 
-		this.apiUrl = '/restParameters'; // Replace with your API endpoint
+
+		this.apiUrl = '/restCommand'; // Replace with your API endpoint
 		this.grid = document.getElementById('grid');
 		this.gridBody = document.getElementById('gridBody');
 		this.editForm = document.getElementById('editForm');
@@ -55,11 +56,10 @@ class ParametersController {
 	}
 
 	fetchData() {
-		const processFilter = document.getElementById('process').value.trim();
-		const institutionFilter = document.getElementById('institution').value.trim();
-		const dateReferenceFilter = document.getElementById('dateReference').value.trim();
+		const idFilter = document.getElementById('id').value.trim();
+		const commandFilter = document.getElementById('command').value.trim();
 
-		const url = `${this.apiUrl}?process=${processFilter}&institution=${institutionFilter}&dateReference=${dateReferenceFilter}`;
+		const url = `${this.apiUrl}?id=${idFilter}&command=${commandFilter}`;
 
 		fetch(url)
 			.then(response => response.json())
@@ -85,13 +85,9 @@ class ParametersController {
 				const cell = document.createElement('td');
 
 
-				if (column.type == 'timestamp' && item[column.name] != null) {
-					let date = new Date(item[column.name]);
-					if (date.getHours() == 0 && date.getMinutes() == 0) {
-						cell.textContent = '' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-					} else {
-						cell.textContent = '' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
-					}
+				if (column.type == 'textarea' && item[column.name] != null) {
+
+					cell.textContent = item[column.name].substring(0, 20) + '...';
 
 				}
 				else {
@@ -152,24 +148,20 @@ class ParametersController {
 
 
 	getItemById(itemId) {
-		// Fetch the item from the API or your data source
-		// Replace with your REST API request or data retrieval logic
-
 
 		const item = {
-			process: document.getElementById('process' + itemId).value,
-			jobName: document.getElementById('jobName' + itemId).value,
-			dateReference: document.getElementById('dateReference' + itemId).value,
-			seqId: document.getElementById('seqId' + itemId).value,
-			fromParameter: document.getElementById('fromParameter' + itemId).value,
-			toParameter: document.getElementById('toParameter' + itemId).value,
-			status: document.getElementById('status' + itemId).value,
-			dateStart: document.getElementById('dateStart' + itemId).value,
-			dateEnd: document.getElementById('dateEnd' + itemId).value,
-			duration: document.getElementById('duration' + itemId).value,
-			outputType: document.getElementById('outputType' + itemId).value,
-			institutionNumber: document.getElementById('institutionNumber' + itemId).value,
-
+			id: document.getElementById('id' + itemId).value,
+			cmdGroup: document.getElementById('cmdGroup' + itemId).value,
+			cmdOrder: document.getElementById('cmdOrder' + itemId).value,
+			dsc: document.getElementById('dsc' + itemId).value,
+			command: document.getElementById('command' + itemId).value,
+			ajType: document.getElementById('ajType' + itemId).value,
+			atb01: document.getElementById('atb01' + itemId).value,
+			atb02: document.getElementById('atb02' + itemId).value,
+			atb03: document.getElementById('atb03' + itemId).value,
+			atb04: document.getElementById('atb04' + itemId).value,
+			atb05: document.getElementById('atb05' + itemId).value,
+			status: document.getElementById('status' + itemId).value
 		};
 
 		return item;
@@ -183,10 +175,25 @@ class ParametersController {
 
 		for (const column of this.columns) {
 
+
+
 			const label = document.createElement('label');
 			label.textContent = column.label;
-			const input = document.createElement('input');
-			input.type = 'text';
+
+			let type = '';
+			if (column.type == 'textarea') {
+				type = 'textarea';
+			} else {
+				type = 'input';
+			}
+
+			const input = document.createElement(type);
+			
+			if (column.type != 'textarea') {
+				input.type = 'text';
+			} else {
+				input.setAttribute('rows','15');
+			}
 
 			input.classList.add('border');
 			input.classList.add('border-gray-400');

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class JobController {
 
 	@RequestMapping("/job")
-    public String resetPassword(){
+    public String job(){
 		return "job";
     }
 	
