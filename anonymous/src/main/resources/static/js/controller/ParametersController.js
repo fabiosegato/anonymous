@@ -18,9 +18,9 @@ class ParametersController {
 			// Add more columns as needed
 		];
 
-		this.apiUrl = ' http://localhost:8080/restParameters'; // Replace with your API endpoint
+		this.apiUrl = '/restParameters'; // Replace with your API endpoint
 		this.grid = document.getElementById('grid');
-		this.gridBody = document.getElementById('gridBody');
+		this.gridBody = document.getElementById('gridody');
 		this.editForm = document.getElementById('editForm');
 		this.itemForm = document.getElementById('itemForm');
 		this.itemForm.addEventListener('submit', this.updateItem.bind(this));
