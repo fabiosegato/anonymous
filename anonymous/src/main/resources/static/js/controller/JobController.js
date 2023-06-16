@@ -24,6 +24,7 @@ class JobController {
 		this.itemForm.addEventListener('submit', this.updateItem.bind(this));
 
 		this.fetchData();
+		
 	}
 
 	createColumns() {
@@ -58,7 +59,7 @@ class JobController {
 		const institutionNumberFilter = document.getElementById('institutionNumber').value.trim();
 
 		const url = `${this.apiUrl}?process=${processFilter}&jobName=${jobNameFilter}&institutionNumber=${institutionNumberFilter}`;
-
+			
 		fetch(url)
 			.then(response => response.json())
 			.then(data => this.displayData(data))
