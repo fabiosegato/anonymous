@@ -42,8 +42,9 @@ public class TaskGroupRestController {
 
 	@PostMapping
 	public ResponseEntity<TaskGroup> Post(@RequestBody @Valid TaskGroup task_group, UriComponentsBuilder uriBuilder) {
-
+		
 		TaskGroup taskGroup = _TaskGroupRepository.save(task_group);
+		
 		URI uri = uriBuilder.path("/taskgroup/{id}").buildAndExpand(taskGroup.getTaskName()).toUri();
 		return ResponseEntity.created(uri).body(taskGroup);
 
@@ -58,10 +59,10 @@ public class TaskGroupRestController {
 		Optional<String> errorCode = Optional.ofNullable(result.getErrorCode());
 		
 		if (errorCode.isPresent()) {
-			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} 
 		
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	
 
 	}
