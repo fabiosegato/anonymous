@@ -89,6 +89,26 @@ class TaskGroupService {
         xhr.send(JSON.stringify(dado));
 
     }
+    
+    cloneProcess(source,target,cb) {
+
+        let xhr = new XMLHttpRequest();
+        console.log(`/taskgroup/taskgroupClone?taskGroup=${source}&taskGroupNew=${target}`);
+        xhr.open('POST', `/taskgroup/taskgroupClone?taskGroup=${source}&taskGroupNew=${target}`,true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 201) {
+                    cb(null, JSON.parse(xhr.responseText));
+                } else {
+                    cb(JSON.parse(xhr.responseText), null);
+                }
+            }
+        }
+        
+        xhr.send();
+
+    }
 
     deletaItem(item,cb) {
 
