@@ -26,8 +26,13 @@ public class CommandRestController {
 		
 	@GetMapping
 	public List<Command> GetById(@RequestParam("id") String p_id,@RequestParam("command") String p_command) {
+		
+		List<Command> command = _CommandRepository.carregaCommand(p_id,p_command);
+		
+		command.stream()
+		.forEach(n->n.setHash(n.getId().hashCode()));
 			
-		return _CommandRepository.carregaCommand(p_id,p_command);
+		return command;
 
 	}
 
