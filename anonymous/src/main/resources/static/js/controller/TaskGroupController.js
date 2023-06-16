@@ -8,6 +8,8 @@ class TaskGroupController {
         this.taskGroupView = new TaskGroupView(document.querySelector('#formJob'));
         this.listBuscaJobs = new ListBuscaJobs(document.querySelector('#listaPesquisaJobs'));
         this.taskGroupView.escondeItens();
+        this.taskGroupView.escondeCloneButton();
+        this.taskGroupView.escondeCloneForm();
         this.settingsView = new SettingsView(document.querySelector('#settingsView'));
         this.typesView = new TypesView(document.querySelector('#typesView'));
         this._mensagem = new Mensagem();
@@ -20,6 +22,7 @@ class TaskGroupController {
         this.inputTaskDesc = $('#taskDesc');
         this.inputCommand = $('#command');
         this.bannerType = $('#taskBannerType');
+        
     }
 
     _gravaForm() {
@@ -76,6 +79,58 @@ class TaskGroupController {
 
 
     }
+    
+    mostraCloneButton(event){
+		event.preventDefault();
+		this.taskGroupView.mostraCloneButton();
+		console.log('asfafdsf');
+		
+	}
+	
+	escondeCloneButton(event){
+		event.preventDefault();
+		this.taskGroupView.escondeClone();		
+	}
+	
+	mostraCloneForm(event){
+		event.preventDefault();
+		this.taskGroupView.mostraCloneForm();			
+	}
+	
+	escondeCloneForm(event){
+		event.preventDefault();
+		
+		this._mensagem.texto = '';
+        this._mensagemView.update(this._mensagem);
+		this.taskGroupView.escondeCloneForm();			
+	}
+	
+	cloneProcess(event){
+		
+		event.preventDefault();
+		
+		let inputTaskNameSource = document.querySelector('#taskNameSource');
+        let inputTaskNameTarget =document.querySelector('#taskNameTarget');
+		
+		let service = new TaskGroupService();
+		
+        service.cloneProcess(inputTaskNameSource.value,inputTaskNameTarget.value
+        , (erro,result) => {
+            if (erro) {
+                this._mensagem.texto = erro['errorMsg'];
+                this._mensagemView.update(this._mensagem);
+                return;
+            }
+            
+            
+            this.escondeCloneForm(event);
+            this.carregaJob(inputTaskNameTarget.value);
+            
+
+        });
+		
+		
+	}
 
     _deletaItem(item, index) {
 
@@ -189,6 +244,7 @@ class TaskGroupController {
             //console.log(this.taskGroup);
 
             this.taskGroupView.mostaTitulo(this.taskGroup);
+            this.taskGroupView.mostraCloneButton();
             this.taskGroupView.esconde();
             this.taskGroupView.update();
 
@@ -301,9 +357,6 @@ class TaskGroupController {
         this.inputConfId[0].focus();
     }
 
-    cloneTaskGroup(event) {
-        event.preventDefault();
-        console.log(this.taskGroup.groupItens);
-    }
+   
 }   
     
