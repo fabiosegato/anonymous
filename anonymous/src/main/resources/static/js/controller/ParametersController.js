@@ -272,6 +272,29 @@ class ParametersController {
 				.catch(error => alert('Error: ' + error));
 		}
 	}
+	
+	cloneJob(event) {
+
+
+		const itemId = event.target.dataset.itemId;
+		const item = this.getItemById(itemId);
+
+		if (confirm('Are you sure you want to delete this item?')) {
+
+			fetch(this.apiUrl, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(item)
+			})
+				.then(response => {
+					console.log('Deleted item:', itemId);
+					this.fetchData();
+				})
+				.catch(error => alert('Error: ' + error));
+		}
+	}
 
 	hideEditForm() {
 		this.editForm.style.display = 'none';
