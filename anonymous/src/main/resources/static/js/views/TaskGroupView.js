@@ -32,6 +32,7 @@ class TaskGroupView {
     mostaTitulo(taskGroup){
 
         document.querySelector('#taskBanner').innerHTML = taskGroup.taskName;
+        document.querySelector('#taskNameSource').value = taskGroup.taskName;
         document.querySelector('#createTasks').style.display = 'block';
         //<a href="#" onClick="taskGroupController.deletaJob(event,'${taskGroup.taskName}')">deletar</a>
 
@@ -48,6 +49,30 @@ class TaskGroupView {
 
         document.querySelector('#taskBanner').innerHTML = '';
         
+
+    }
+    
+    escondeCloneButton(){
+
+        document.querySelector('#cloneButton').style.display = 'none';        
+
+    }
+    
+    mostraCloneButton(){
+
+        document.querySelector('#cloneButton').style.display = 'block';        
+
+    }
+    
+    escondeCloneForm(){
+
+        document.querySelector('#cloneForm').style.display = 'none';        
+
+    }
+    
+    mostraCloneForm(){
+
+        document.querySelector('#cloneForm').style.display = 'block';        
 
     }
 
