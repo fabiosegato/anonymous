@@ -1,11 +1,15 @@
 package br.com.spring.anonymous.entity;
 
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.Transient;
 
 
 @Entity
@@ -70,6 +74,17 @@ public class Command {
 	
 	@Column(name = "STATUS")
 	private String status = "A";
+	
+	@Transient
+	private Integer hash;	
+
+	public Integer getHash() {
+		return hash;
+	}
+
+	public void setHash(Integer hash) {
+		this.hash = hash;
+	}
 
 	public String getId() {
 		return id;
@@ -95,8 +110,8 @@ public class Command {
 		this.cmdOrder = cmdOrder;
 	}
 
-	public String getDesc() {
-		return dsc;
+	public String getDsc() {
+		return this.dsc;
 	}
 
 	public void setDesc(String dsc) {
