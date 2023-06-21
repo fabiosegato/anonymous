@@ -31,6 +31,19 @@ class CommandsController {
 
 	createColumns() {
 		const headerRow = document.getElementById('headerRow');
+		
+		const addBtn = document.createElement('button');
+		addBtn.classList.add('gg-add');
+		addBtn.addEventListener('click', this.newRow.bind(this));
+
+
+		const th = document.createElement('th');
+		th.classList.add('px-6');
+		th.classList.add('py-3');
+		th.scope = 'scope="col"';
+		th.textContent = '';
+		th.appendChild(addBtn);
+		headerRow.appendChild(th);
 
 		for (const column of this.columns) {
 			const th = document.createElement('th');
@@ -41,18 +54,7 @@ class CommandsController {
 			headerRow.appendChild(th);
 		}
 
-		const addBtn = document.createElement('button');
-		addBtn.classList.add('gg-add');
-		//addBtn.dataset.itemId = counter;
-		addBtn.addEventListener('click', this.newRow.bind(this));
-
-
-		const th = document.createElement('th');
-		th.class = 'class="px-6 py-3"';
-		th.scope = 'scope="col"';
-		th.textContent = '';
-		th.appendChild(addBtn);
-		headerRow.appendChild(th);
+		
 	}
 
 	fetchData() {
@@ -79,6 +81,29 @@ class CommandsController {
 			row.classList.add('border-b');
 			row.classList.add('dark:bg-gray-800');
 			row.classList.add('dark:border-gray-700');
+			
+			const actionsCell = document.createElement('td');
+			actionsCell.classList.add('flex');
+			actionsCell.classList.add('space-x-4');
+			actionsCell.classList.add('mt-5');
+			actionsCell.classList.add('px-6');
+			actionsCell.classList.add('py-4');
+
+			const editBtn = document.createElement('button');
+			editBtn.classList.add('gg-pen');
+			editBtn.dataset.itemId = counter;
+			editBtn.addEventListener('click', this.editRow.bind(this));
+			actionsCell.appendChild(editBtn);
+
+			const deleteBtn = document.createElement('button');
+			deleteBtn.dataset.itemId = counter;
+			deleteBtn.classList.add('gg-trash');
+
+			deleteBtn.addEventListener('click', this.deleteRow.bind(this));
+
+			actionsCell.appendChild(deleteBtn);
+
+			row.appendChild(actionsCell);
 
 
 			for (const column of this.columns) {
@@ -102,27 +127,7 @@ class CommandsController {
 				row.appendChild(cell);
 			}
 
-			const actionsCell = document.createElement('td');
-			actionsCell.classList.add('flex');
-			actionsCell.classList.add('space-x-4');
-			actionsCell.classList.add('mt-5');
-			actionsCell.classList.add('mr-5');
-
-			const editBtn = document.createElement('button');
-			editBtn.classList.add('gg-pen');
-			editBtn.dataset.itemId = counter;
-			editBtn.addEventListener('click', this.editRow.bind(this));
-			actionsCell.appendChild(editBtn);
-
-			const deleteBtn = document.createElement('button');
-			deleteBtn.dataset.itemId = counter;
-			deleteBtn.classList.add('gg-trash');
-
-			deleteBtn.addEventListener('click', this.deleteRow.bind(this));
-
-			actionsCell.appendChild(deleteBtn);
-
-			row.appendChild(actionsCell);
+			
 			this.gridBody.appendChild(row);
 
 			counter++;
