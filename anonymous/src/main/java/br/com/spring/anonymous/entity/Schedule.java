@@ -1,6 +1,5 @@
 package br.com.spring.anonymous.entity;
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,6 +13,28 @@ import br.com.spring.anonymous.entity.id.ScheduleId;
 @IdClass(ScheduleId.class)
 @Table(name = "CTR_AJ_SCHEDULE")
 public class Schedule {
+
+	
+	
+	public Schedule(Integer scheduleId, String taskGroup, String scheduleType, String scheduleValue,
+			LocalDateTime validFrom, LocalDateTime validTo, String status, String agent, LocalDateTime lastSchedule,
+			String instance, String criticalJob, Integer numberAttempts, Integer prmt1) {
+		this.scheduleId = scheduleId;
+		this.taskGroup = taskGroup;
+		this.scheduleType = scheduleType;
+		this.scheduleValue = scheduleValue;
+		this.validFrom = validFrom;
+		this.validTo = validTo;
+		this.status = status;
+		this.agent = agent;
+		this.lastSchedule = lastSchedule;
+		this.instance = instance;
+		this.criticalJob = criticalJob;
+		this.numberAttempts = numberAttempts;
+		this.prmt1 = prmt1;
+	}
+	
+	public Schedule() {}
 
 	@Id
 	@Column(name="SCHEDULE_ID")
@@ -29,11 +50,11 @@ public class Schedule {
 	@Column(name = "SCHEDULE_VALUE")
 	private String scheduleValue;
 	
-	@Column(name = "VALID_FROM")
-	private Timestamp validFrom;
+	@Column(name = "VALID_FROM",columnDefinition = "TIMESTAMP")
+	private LocalDateTime validFrom;
 	
-	@Column(name = "VALID_TO")
-	private Timestamp validTo;
+	@Column(name = "VALID_TO",columnDefinition = "TIMESTAMP")
+	private LocalDateTime validTo;
 	
 	@Column(name = "STATUS")
 	private String status;
@@ -41,8 +62,8 @@ public class Schedule {
 	@Column(name = "AGENT")
 	private String agent;
 	
-	@Column(name = "LAST_SCHEDULE")
-	private Timestamp lastSchedule;
+	@Column(name = "LAST_SCHEDULE",columnDefinition = "TIMESTAMP")
+	private LocalDateTime lastSchedule;
 
 	@Column(name = "INSTANCE")
 	private String instance;
@@ -88,19 +109,19 @@ public class Schedule {
 		this.scheduleValue = scheduleValue;
 	}
 
-	public Timestamp getValidFrom() {
+	public LocalDateTime getValidFrom() {
 		return validFrom;
 	}
 
-	public void setValidFrom(Timestamp validFrom) {
+	public void setValidFrom(LocalDateTime validFrom) {
 		this.validFrom = validFrom;
 	}
 
-	public Timestamp getValidTo() {
+	public LocalDateTime getValidTo() {
 		return validTo;
 	}
 
-	public void setValidTo(Timestamp validTo) {
+	public void setValidTo(LocalDateTime validTo) {
 		this.validTo = validTo;
 	}
 
@@ -120,11 +141,11 @@ public class Schedule {
 		this.agent = agent;
 	}
 
-	public Timestamp getLastSchedule() {
+	public LocalDateTime getLastSchedule() {
 		return lastSchedule;
 	}
 
-	public void setLastSchedule(Timestamp lastSchedule) {
+	public void setLastSchedule(LocalDateTime lastSchedule) {
 		this.lastSchedule = lastSchedule;
 	}
 

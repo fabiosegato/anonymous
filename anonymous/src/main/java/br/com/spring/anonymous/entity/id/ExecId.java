@@ -5,37 +5,16 @@ import java.io.Serializable;
 public class ExecId implements Serializable{	
   
 	private static final long serialVersionUID = 1L;
-
-	private Integer scheduleId; 
-    private String taskGroup;
-    private String rootPid;
+	
+	private String rootPid;
+	private String confId;
     
-    public ExecId() {
-    }
- 
-    public ExecId(Integer scheduleId, String taskGroup, String rootPid) {
-        this.setScheduleId(scheduleId);
-        this.setTaskGroup(taskGroup);
-        this.setRootPid(rootPid);
-    }
-
-
-
-	public Integer getScheduleId() {
-		return this.scheduleId;
+	public ExecId(String rootPid, String confId) {
+		this.rootPid = rootPid;
+		this.confId = confId;
 	}
-
-	public void setTaskGroup(String taskGroup) {
-		this.taskGroup = taskGroup;
-	}
-
-	public String getTaskGroup() {
-		return this.taskGroup;
-	}
-
-	public void setScheduleId(Integer scheduleId) {
-		this.scheduleId = scheduleId;
-	}
+	
+	public ExecId() {}
 
 	public String getRootPid() {
 		return rootPid;
@@ -44,5 +23,16 @@ public class ExecId implements Serializable{
 	public void setRootPid(String rootPid) {
 		this.rootPid = rootPid;
 	}
+
+	public String getConfId() {
+		return confId;
+	}
+
+	public void setConfId(String confId) {
+		this.confId = confId;
+	}
+
+	
+	
 
 }
