@@ -1,45 +1,51 @@
 package br.com.spring.anonymous.controller.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.spring.anonymous.controller.dto.Mensagem;
 import br.com.spring.anonymous.entity.Schedule;
 import br.com.spring.anonymous.repository.ScheduleRepository;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/restSchedule")
 public class ScheduleRestController {
 
 	@Autowired
-	private ScheduleRepository _ScheduleRepository;
-	
-	/*@CrossOrigin
-	@GetMapping("/{taskName}")
-	public Collection<ScheduleDto> GetTaskName(@PathVariable(value = "taskName") String p_taskName) {
-		return this.toScheduleDto(_ScheduleRepository.carregaSchedule(p_taskName.toUpperCase()));
+	private ScheduleRepository  _ScheduleRepository;
 
-	}*/
-	
-	@PostMapping
-	public ResponseEntity<Mensagem> Post(@RequestBody @Valid Schedule p_schedule, UriComponentsBuilder uriBuilder) {
-    Mensagem mensagem = new Mensagem();
-    
-    _ScheduleRepository.executaJob(p_schedule.getScheduleId(), p_schedule.getTaskGroup());
-    
-    mensagem.setDesc("Execução do job: "+ p_schedule.getTaskGroup() +" solicitada com sucesso!");
 		
-    return ResponseEntity.status(HttpStatus.CREATED).body(mensagem);
-	}
-	
+	@GetMapping
+	public List<Schedule> GetById(@RequestParam("taskGroup") String p_task_group
+			,@RequestParam("instance") String p_instance) {
+			
+		return _ScheduleRepository.carregaSchedule(p_task_group,p_instance);
 
+	}
+
+	@PostMapping
+	public Schedule Post(@RequestBody @Valid Schedule p_schedule) {
+
+		return _ScheduleRepository.save(p_schedule);
+
+	}	
+	
+	@DeleteMapping
+	public void Delete(@RequestBody @Valid Schedule p_schedule) {
+
+		_ScheduleRepository.delete(p_schedule);
+
+
+	}
 
 
 }

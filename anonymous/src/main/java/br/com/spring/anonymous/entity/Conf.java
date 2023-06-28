@@ -34,18 +34,6 @@ public class Conf {
     @JoinColumn(name = "CONF_ID",updatable=false,insertable=false)
 	private List<Settings> settings;
 	
-	//@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    //@JoinColumn(name = "CONF_ID", referencedColumnName = "ID")
-	//private Command commands;
-
-	//public Command getCommands() {
-		//return commands;
-	//}
-
-	//public void setCommands(Command commands) {
-		//this.commands = commands;
-	//}
-
 	public String getConfId() {
 		return this.confId;
 	}
