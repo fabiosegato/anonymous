@@ -1,35 +1,69 @@
 package br.com.spring.anonymous.entity;
 
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-
 import br.com.spring.anonymous.entity.id.ExecId;
 
 @Entity
-@IdClass(ExecId.class)
+//@IdClass(ExecId.class)
 @Table(name = "CTR_AJ_EXEC")
 public class Exec {
-
-	@Id
-	@Column(name="SCHEDULE_ID")
-	private int scheduleId;
 	
+	
+	public Exec(Integer rownum,String status, LocalDateTime scheduleStart, LocalDateTime jobStart, String rootPid,
+			Integer countTry, String agent, String taskGroup, String pid, String confId, String taskOrder,
+			String subTaskGroup, String subTaskGroupLevel, Integer loopNum, String instance, String criticalJob,
+			String linuxRunTimeId, String linuxLog) {
+		this.rownum = rownum;
+		this.status = status;
+		this.scheduleStart = scheduleStart;
+		this.jobStart = jobStart;
+		this.rootPid = rootPid;
+		this.countTry = countTry;
+		this.agent = agent;
+		this.taskGroup = taskGroup;
+		this.pid = pid;
+		this.confId = confId;
+		this.taskOrder = taskOrder;
+		this.subTaskGroup = subTaskGroup;
+		this.subTaskGroupLevel = subTaskGroupLevel;
+		this.loopNum = loopNum;
+		this.instance = instance;
+		this.criticalJob = criticalJob;
+		this.linuxRunTimeId = linuxRunTimeId;
+		this.linuxLog = linuxLog;
+	}
+	
+	public Exec() {}
+	
+	@Id
+	@Column(name="ROWNUM")
+	private Integer rownum;
+	
+	public Integer getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(Integer rownum) {
+		this.rownum = rownum;
+	}
+
 	@Column(name="STATUS")
 	private String status;
 	
-	@Column(name = "SCHEDULE_START")
-	private Timestamp scheduleStart;
+	@Column(name = "SCHEDULE_START",columnDefinition = "TIMESTAMP")
+	private LocalDateTime scheduleStart;
 	
-	@Column(name = "JOB_START")
-	private Timestamp jobStart;
-	
-	@Id
+	@Column(name = "JOB_START",columnDefinition = "TIMESTAMP"	)
+	private LocalDateTime jobStart;
+
+	//@Id
 	@Column(name = "ROOT_PID")
 	private String rootPid;
 	
@@ -37,15 +71,15 @@ public class Exec {
 	private Integer countTry;
 	
 	@Column(name = "AGENT")
-	private String agent;
+	private String agent;	
 	
-	@Id
 	@Column(name = "TASK_GROUP")
 	private String taskGroup;
 	
 	@Column(name = "PID")
 	private String pid;
 	
+	//@Id
 	@Column(name = "CONF_ID")
 	private String confId;
 	
@@ -73,14 +107,6 @@ public class Exec {
 	@Column(name = "LINUX_LOG")
 	private String linuxLog;
 
-	public int getScheduleId() {
-		return scheduleId;
-	}
-
-	public void setScheduleId(int scheduleId) {
-		this.scheduleId = scheduleId;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -89,19 +115,19 @@ public class Exec {
 		this.status = status;
 	}
 
-	public Timestamp getScheduleStart() {
+	public LocalDateTime getScheduleStart() {
 		return scheduleStart;
 	}
 
-	public void setScheduleStart(Timestamp scheduleStart) {
+	public void setScheduleStart(LocalDateTime scheduleStart) {
 		this.scheduleStart = scheduleStart;
 	}
 
-	public Timestamp getJobStart() {
+	public LocalDateTime getJobStart() {
 		return jobStart;
 	}
 
-	public void setJobStart(Timestamp jobStart) {
+	public void setJobStart(LocalDateTime jobStart) {
 		this.jobStart = jobStart;
 	}
 
