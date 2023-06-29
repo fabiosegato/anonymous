@@ -27,27 +27,19 @@ public class CommandRestController {
 	@GetMapping
 	public List<Command> GetById(@RequestParam("id") String p_id,@RequestParam("command") String p_command) {
 		
-		List<Command> command = _CommandRepository.carregaCommand(p_id,p_command);
-		
-		command.stream()
-		.forEach(n->n.setHash(n.getId().hashCode()));
-			
-		return command;
-
+		return  _CommandRepository.carregaCommand(p_id,p_command);
 	}
 
 	@PostMapping
 	public Command Post(@RequestBody @Valid Command p_command) {
 
 		return _CommandRepository.save(p_command);
-
 	}	
 	
 	@DeleteMapping
 	public void Delete(@RequestBody @Valid Command p_control) {
 
 		_CommandRepository.delete(p_control);
-
 
 	}
 
