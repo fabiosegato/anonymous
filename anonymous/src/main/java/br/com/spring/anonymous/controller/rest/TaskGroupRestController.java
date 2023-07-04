@@ -62,8 +62,7 @@ public class TaskGroupRestController {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} 
 		
-		return new ResponseEntity<>(result, HttpStatus.CREATED);
-	
+		return new ResponseEntity<>(result, HttpStatus.CREATED);	
 
 	}
 
