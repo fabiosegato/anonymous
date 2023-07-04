@@ -1,17 +1,29 @@
-class ExceptionController {
-
+class ScheduleController {
 
 	constructor() {
-		
 		this.columns = [
-			{ name: 'excType', label: 'Exec Type', type: 'text', required: true },
-			{ name: 'procName', label: 'Process Name', type: 'text', required: true },
-			{ name: 'value', label: 'Value', type: 'text', required: true }
+			{ name: 'status', label: 'Status', type: 'text', required: false },
+			{ name: 'scheduleStart', label: 'Schedule Start', type: 'text', required: false },
+			{ name: 'jobStart', label: 'Job Start', type: 'text', required: false },
+			{ name: 'rootPid', label: 'Rott Pid', type: 'text', required: false },
+			{ name: 'countTry', label: 'Try', type: 'text', required: false },
+			{ name: 'agent', label: 'Agent', type: 'text', required: false },
+			{ name: 'taskGroup', label: 'Task Group', type: 'text', required: false },
+			{ name: 'pid', label: 'Pid', type: 'text', required: false },
+			{ name: 'confId', label: 'Conf Id', type: 'text', required: false },
+			{ name: 'taskOrder', label: 'Order', type: 'text', required: false },
+			{ name: 'subTaskGroup', label: 'Sub Task', type: 'text', required: false },
+			{ name: 'subTaskGroupLevel', label: 'Sub Task Level', type: 'text', required: false },
+			{ name: 'loopNum', label: 'Loop', type: 'text', required: false },
+			{ name: 'instance', label: 'Instance', type: 'text', required: false },
+			{ name: 'criticalJob', label: 'Critical', type: 'text', required: false },
+			{ name: 'linuxRunTimeId', label: 'Linux PID', type: 'text', required: false },
+			{ name: 'linuxLog', label: 'Log', type: 'text', required: false }
 			// Add more columns as needed
 		];
 
 
-		this.apiUrl = '/restException'; // Replace with your API endpoint
+		this.apiUrl = '/restExec'; // Replace with your API endpoint
 		this.grid = document.getElementById('grid');
 		this.gridBody = document.getElementById('gridBody');
 		this.editForm = document.getElementById('editForm');
@@ -19,24 +31,12 @@ class ExceptionController {
 		this.itemForm.addEventListener('submit', this.updateItem.bind(this));
 
 		this.fetchData();
-		
 	}
 
 	createColumns() {
 		const headerRow = document.getElementById('headerRow');
+
 		
-		const addBtn = document.createElement('button');
-		addBtn.classList.add('gg-add');
-		addBtn.addEventListener('click', this.newRow.bind(this));
-
-		const th = document.createElement('th');
-		th.classList.add('px-6');
-		th.classList.add('py-3');
-		th.scope = 'scope="col"';
-		th.textContent = '';
-		th.appendChild(addBtn);
-		headerRow.appendChild(th);
-
 		for (const column of this.columns) {
 			const th = document.createElement('th');
 			th.classList.add('px-6');
@@ -44,15 +44,16 @@ class ExceptionController {
 			th.scope = 'scope="col"';
 			th.textContent = column.label;
 			headerRow.appendChild(th);
-		}		
+		}
 	}
 
 	fetchData() {
-		const execTypeFilter = document.getElementById('execType').value.trim();
-		const valueFilter = document.getElementById('value').value.trim();
+		const processFilter = document.getElementById('process').value.trim();
+		const instanceFilter = document.getElementById('instance').value.trim();
+		const statusFilter = document.getElementById('status').value.trim();
 
-		const url = `${this.apiUrl}?execType=${execTypeFilter}&value=${valueFilter}`;
-			
+		const url = `${this.apiUrl}?taskName=${processFilter}&instance=${instanceFilter}&status=${statusFilter}`;
+
 		fetch(url)
 			.then(response => response.json())
 			.then(data => this.displayData(data))
@@ -71,29 +72,7 @@ class ExceptionController {
 			row.classList.add('border-b');
 			row.classList.add('dark:bg-gray-800');
 			row.classList.add('dark:border-gray-700');
-			
-			const actionsCell = document.createElement('td');
-			actionsCell.classList.add('flex');
-			actionsCell.classList.add('space-x-4');
-			actionsCell.classList.add('mt-5');
-			actionsCell.classList.add('px-6');
-			actionsCell.classList.add('py-4');			
 
-			const editBtn = document.createElement('button');
-			editBtn.classList.add('gg-pen');
-			editBtn.dataset.itemId = counter;
-			editBtn.addEventListener('click', this.editRow.bind(this));
-			actionsCell.appendChild(editBtn);
-
-			const deleteBtn = document.createElement('button');
-			deleteBtn.dataset.itemId = counter;
-			deleteBtn.classList.add('gg-trash');
-
-			deleteBtn.addEventListener('click', this.deleteRow.bind(this));
-
-			actionsCell.appendChild(deleteBtn);
-
-			row.appendChild(actionsCell);
 
 			for (const column of this.columns) {
 				const cell = document.createElement('td');
@@ -106,7 +85,35 @@ class ExceptionController {
 					} else {
 						cell.textContent = '' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
 					}
-
+				}
+				else if (column.name == 'status'){
+					
+					let statusDesc='';
+					
+					switch (item[column.name]) {
+							  case '1':
+							    statusDesc = 'Scheduled';
+							    cell.style = "font-weight: bold";
+							    break;
+							  case '2':
+							    statusDesc = 'Executing';
+							    cell.style = "font-weight: bold";
+							    break;
+							  case '3':
+							     statusDesc = 'Success';
+							     cell.style = "color:green; font-weight: bold";
+							    break;
+							  case '4':
+							    statusDesc = 'Error';
+							    cell.style = "color:red; font-weight: bold";
+							    break;
+							  case '5':
+								  statusDesc = 'Timeout';
+								  cell.style = "color:red; font-weight: bold";
+	  					}
+	  					cell.textContent = statusDesc;
+	  					
+						
 				}
 				else {
 					cell.textContent = item[column.name];
@@ -119,6 +126,7 @@ class ExceptionController {
 				cell.classList.add('py-4');
 				row.appendChild(cell);
 			}
+
 
 			this.gridBody.appendChild(row);
 
@@ -140,16 +148,29 @@ class ExceptionController {
 	newRow(event) {
 		const item = {};
 		this.showEditForm(item);
-
 	}
 
 
 	getItemById(itemId) {
 
 		const item = {
-			excType: document.getElementById('excType' + itemId).value,			
-			procName: document.getElementById('procName' + itemId).value,
-			value: document.getElementById('value' + itemId).value			
+			status: document.getElementById('status' + itemId).value,
+			scheduleStart: document.getElementById('scheduleStart' + itemId).value,
+			jobStart: document.getElementById('jobStart' + itemId).value,
+			rootPid: document.getElementById('rootPid' + itemId).value,
+			countTry: document.getElementById('countTry' + itemId).value,
+			agent: document.getElementById('agent' + itemId).value,
+			taskGroup: document.getElementById('taskGroup' + itemId).value,
+			pid: document.getElementById('pid' + itemId).value,
+			confId: document.getElementById('confId' + itemId).value,
+			taskOrder: document.getElementById('taskOrder' + itemId).value,
+			subTaskGroup: document.getElementById('subTaskGroup' + itemId).value,
+			subTaskGroupLevel: document.getElementById('subTaskGroupLevel' + itemId).value,
+			loopNum: document.getElementById('loopNum' + itemId).value,
+			instance: document.getElementById('instance' + itemId).value,
+			criticalJob: document.getElementById('criticalJob' + itemId).value,
+			linuxRunTimeId: document.getElementById('linuxRunTimeId' + itemId).value,
+			linuxLog: document.getElementById('linuxLog' + itemId).value
 		};
 
 		return item;
@@ -190,7 +211,6 @@ class ExceptionController {
 
 		this.editForm.style.display = 'block';
 		document.getElementById('saveBtn').focus();
-
 	}
 
 	updateItem(event) {
@@ -212,7 +232,7 @@ class ExceptionController {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => { 
+			.then(response => {                      // first then()
 				if (!response.ok) {
 					return response.text().then(text => { throw new Error(text) })
 				}
@@ -227,11 +247,9 @@ class ExceptionController {
 				alert('Error: ' + error);
 				this.hideEditForm();
 			});
-
 	}
 
 	deleteRow(event) {
-
 
 		const itemId = event.target.dataset.itemId;
 		const item = this.getItemById(itemId);
