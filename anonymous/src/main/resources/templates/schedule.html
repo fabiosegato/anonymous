@@ -16,12 +16,11 @@
 <body class="bg-slate-50">
 <div th:replace="navBar :: navBar"></div>
 <div class="p-5 bg-slate-50">
-      <h3 class="text-3xl font-semibold m-5">Schedule</h3>
+      <h3 class="text-3xl font-semibold m-5">Exec</h3>
 <div id="columns"></div>
 <div class="flex space-x-4 m-5">
     <input class="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-orange-500" type="text" id="process" placeholder="Filter by process">
-    <input class="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-orange-500" type="text" id="institution" placeholder="Filter by Institution">
-    <input class="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-orange-500" type="text" id="dateReference" placeholder="Filter by Date reference">
+    <input class="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-orange-500" type="text" id="instance" placeholder="Filter by Instance">
 </div>
     <br><br>
     <div class="m-5 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -46,12 +45,10 @@
     <script>     
 
         document.addEventListener('DOMContentLoaded', () => {
-            const controlController = new ControlController();
-            document.getElementById('process').addEventListener('input', controlController.fetchData.bind(controlController));
-            document.getElementById('institution').addEventListener('input', controlController.fetchData.bind(controlController));
-            document.getElementById('dateReference').addEventListener('input', controlController.fetchData.bind(controlController));
-
-            controlController.createColumns();
+            const scheduleController = new ScheduleController();
+            document.getElementById('process').addEventListener('input', scheduleController.fetchData.bind(scheduleController));
+            document.getElementById('instance').addEventListener('input', scheduleController.fetchData.bind(scheduleController));
+            scheduleController.createColumns();
         });
     </script>
 </div>
