@@ -29,14 +29,12 @@ class ExecController {
 		this.gridBody = document.getElementById('gridBody');
 		this.editForm = document.getElementById('editForm');
 		this.itemForm = document.getElementById('itemForm');
-		this.itemForm.addEventListener('submit', this.updateItem.bind(this));
 
 		this.fetchData();
 	}
 
 	createColumns() {
 		const headerRow = document.getElementById('headerRow');
-
 		
 		for (const column of this.columns) {
 			const th = document.createElement('th');
@@ -46,8 +44,6 @@ class ExecController {
 			th.textContent = column.label;
 			headerRow.appendChild(th);
 		}
-
-
 	}
 
 	fetchData() {
@@ -75,7 +71,6 @@ class ExecController {
 			row.classList.add('border-b');
 			row.classList.add('dark:bg-gray-800');
 			row.classList.add('dark:border-gray-700');
-
 
 			for (const column of this.columns) {
 				const cell = document.createElement('td');
@@ -138,149 +133,5 @@ class ExecController {
 		}
 	}
 
-	editRow(event) {
 
-
-		const itemId = event.target.dataset.itemId;
-		const item = this.getItemById(itemId);
-		if (item) {
-			this.showEditForm(item);
-		}
-
-	}
-
-	newRow(event) {
-		const item = {};
-		this.showEditForm(item);
-
-	}
-
-
-	getItemById(itemId) {
-
-		const item = {
-			status: document.getElementById('status' + itemId).value,
-			scheduleStart: document.getElementById('scheduleStart' + itemId).value,
-			jobStart: document.getElementById('jobStart' + itemId).value,
-			rootPid: document.getElementById('rootPid' + itemId).value,
-			countTry: document.getElementById('countTry' + itemId).value,
-			agent: document.getElementById('agent' + itemId).value,
-			taskGroup: document.getElementById('taskGroup' + itemId).value,
-			pid: document.getElementById('pid' + itemId).value,
-			confId: document.getElementById('confId' + itemId).value,
-			taskOrder: document.getElementById('taskOrder' + itemId).value,
-			subTaskGroup: document.getElementById('subTaskGroup' + itemId).value,
-			subTaskGroupLevel: document.getElementById('subTaskGroupLevel' + itemId).value,
-			loopNum: document.getElementById('loopNum' + itemId).value,
-			instance: document.getElementById('instance' + itemId).value,
-			criticalJob: document.getElementById('criticalJob' + itemId).value,
-			linuxRunTimeId: document.getElementById('linuxRunTimeId' + itemId).value,
-			linuxLog: document.getElementById('linuxLog' + itemId).value
-		};
-
-
-		return item;
-	}
-
-	showEditForm(item) {
-		this.itemForm.reset();
-
-		const formFields = document.getElementById('formFields');
-		formFields.innerHTML = '';
-
-		for (const column of this.columns) {
-
-			const label = document.createElement('label');
-			label.textContent = column.label;
-			const input = document.createElement('input');
-			input.type = 'text';
-
-			input.classList.add('border');
-			input.classList.add('border-gray-400');
-			input.classList.add('block');
-			input.classList.add('py-2');
-			input.classList.add('px-4');
-			input.classList.add('w-full');
-			input.classList.add('rounded');
-			input.classList.add('focus:outline-none');
-			input.classList.add('focus:border-orange-500');
-			input.required = column.required;
-			input.name = column.name;
-			input.id = column.name + 'Edit';
-			if (Object.keys(item).length != 0) {
-				input.value = item[column.name];
-			}
-
-			formFields.appendChild(label);
-			formFields.appendChild(input);
-		}
-
-		this.editForm.style.display = 'block';
-		document.getElementById('saveBtn').focus();
-
-	}
-
-	updateItem(event) {
-		event.preventDefault();
-
-		const formData = new FormData(this.itemForm);
-		const data = {};
-
-		for (const [name, value] of formData.entries()) {
-			data[name] = value;
-		}
-
-		console.log(JSON.stringify(data));
-
-		fetch(this.apiUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-			.then(response => {                      // first then()
-				if (!response.ok) {
-					return response.text().then(text => { throw new Error(text) })
-				}
-				alert('Saved with sucess!');
-				return response.json();
-			})
-			.then(updatedItem => {
-				this.hideEditForm();
-				this.fetchData();
-			})
-			.catch(error => {
-				alert('Error: ' + error);
-				this.hideEditForm();
-			});
-
-	}
-
-	deleteRow(event) {
-
-
-		const itemId = event.target.dataset.itemId;
-		const item = this.getItemById(itemId);
-
-		if (confirm('Are you sure you want to delete this item?')) {
-
-			fetch(this.apiUrl, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(item)
-			})
-				.then(response => {
-					console.log('Deleted item:', itemId);
-					this.fetchData();
-				})
-				.catch(error => alert('Error: ' + error));
-		}
-	}
-
-	hideEditForm() {
-		this.editForm.style.display = 'none';
-	}
 }
