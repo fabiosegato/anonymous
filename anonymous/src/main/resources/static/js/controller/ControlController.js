@@ -1,16 +1,15 @@
 class ControlController {
 
-
 	constructor() {
 		this.columns = [
-			{ name: 'process', label: 'Process', type: 'text', required: true },
-			{ name: 'dateReference', label: 'Date reference', type: 'timestamp', required: true },
-			{ name: 'seqId', label: 'Seq ID', type: 'text', required: true },
-			{ name: 'institutionNumber', label: 'Institution', type: 'text', required: true },
-			{ name: 'scheduleType', label: 'Schedule Type', type: 'text', required: true },
-			{ name: 'businessday', label: 'Business Day', type: 'text', required: false },
-			{ name: 'prmt1', label: 'PRMT 1', type: 'text', required: false },
-			{ name: 'daysQtd', label: 'Days', type: 'text', required: true }
+			{ name: 'process', label: 'Process', type: 'text', required: true, editform: true },
+			{ name: 'dateReference', label: 'Date reference', type: 'timestamp', required: true, editform: true },
+			{ name: 'seqId', label: 'Seq ID', type: 'text', required: true, editform: true },
+			{ name: 'institutionNumber', label: 'Institution', type: 'text', required: true, editform: true },
+			{ name: 'scheduleType', label: 'Schedule Type', type: 'select', required: true, editform: true },
+			{ name: 'businessday', label: 'Business Day', type: 'text', required: false, editform: true },
+			{ name: 'prmt1', label: 'PRMT 1', type: 'text', required: false, editform: true },
+			{ name: 'daysQtd', label: 'Days', type: 'text', required: true, editform: true }
 			// Add more columns as needed
 		];
 
@@ -183,27 +182,64 @@ class ControlController {
 
 			const label = document.createElement('label');
 			label.textContent = column.label;
-			const input = document.createElement('input');
-			input.type = 'text';
-
-			input.classList.add('border');
-			input.classList.add('border-gray-400');
-			input.classList.add('block');
-			input.classList.add('py-2');
-			input.classList.add('px-4');
-			input.classList.add('w-full');
-			input.classList.add('rounded');
-			input.classList.add('focus:outline-none');
-			input.classList.add('focus:border-orange-500');
-			input.required = column.required;
-			input.name = column.name;
-			input.id = column.name + 'Edit';
-			if (Object.keys(item).length != 0) {
-				input.value = item[column.name];
+			
+			if (column.editform && column.type == 'text') {
+			
+				const input = document.createElement('input');
+				input.type = 'text';
+	
+				input.classList.add('border');
+				input.classList.add('border-gray-400');
+				input.classList.add('block');
+				input.classList.add('py-2');
+				input.classList.add('px-4');
+				input.classList.add('w-full');
+				input.classList.add('rounded');
+				input.classList.add('focus:outline-none');
+				input.classList.add('focus:border-orange-500');
+				input.required = column.required;
+				input.name = column.name;
+				input.id = column.name + 'Edit';
+				if (Object.keys(item).length != 0) {
+					input.value = item[column.name];
+				}
+	
+				formFields.appendChild(label);
+				formFields.appendChild(input);
+			
 			}
-
-			formFields.appendChild(label);
-			formFields.appendChild(input);
+			
+			if (column.editform && column.type == 'select'){
+					
+					const types = ['DAILY','WEEK','MONTH','YEAR','QUARTER','SEMESTER','DAY','BIWEEKLY','BUSINESSDAY'];
+				
+					const selectList = document.createElement("select");
+					
+					for (let i = 0; i < types.length; i++) {
+					    var option = document.createElement("option");
+					    option.value = types[i];
+					    option.text = types[i];
+					    selectList.appendChild(option);
+					}
+							
+					selectList.classList.add('border');
+					selectList.classList.add('border-gray-400');
+					selectList.classList.add('block');
+					selectList.classList.add('py-2');
+					selectList.classList.add('px-4');
+					selectList.classList.add('w-full');
+					selectList.classList.add('rounded');
+					selectList.classList.add('focus:outline-none');
+					selectList.classList.add('focus:border-orange-500');
+					selectList.name = column.name;
+					
+					selectList.id = column.name + 'Edit';
+					selectList.value = item[column.name];
+					formFields.appendChild(label);
+					formFields.appendChild(selectList);				 
+					
+			}
+			
 		}
 
 		this.editForm.style.display = 'block';
