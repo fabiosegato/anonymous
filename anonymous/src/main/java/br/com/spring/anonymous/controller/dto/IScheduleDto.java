@@ -31,5 +31,6 @@ public interface IScheduleDto {
  	 Integer getPrmt1();
 	 
 	 String getExecuting();
+	 
 	
 }
