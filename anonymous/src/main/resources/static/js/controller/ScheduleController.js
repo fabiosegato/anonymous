@@ -2,28 +2,26 @@ class ScheduleController {
 
 	constructor() {
 		this.columns = [
-			{ name: 'status', label: 'Status', type: 'text', required: false },
-			{ name: 'scheduleStart', label: 'Schedule Start', type: 'text', required: false },
-			{ name: 'jobStart', label: 'Job Start', type: 'text', required: false },
-			{ name: 'rootPid', label: 'Rott Pid', type: 'text', required: false },
-			{ name: 'countTry', label: 'Try', type: 'text', required: false },
-			{ name: 'agent', label: 'Agent', type: 'text', required: false },
-			{ name: 'taskGroup', label: 'Task Group', type: 'text', required: false },
-			{ name: 'pid', label: 'Pid', type: 'text', required: false },
-			{ name: 'confId', label: 'Conf Id', type: 'text', required: false },
-			{ name: 'taskOrder', label: 'Order', type: 'text', required: false },
-			{ name: 'subTaskGroup', label: 'Sub Task', type: 'text', required: false },
-			{ name: 'subTaskGroupLevel', label: 'Sub Task Level', type: 'text', required: false },
-			{ name: 'loopNum', label: 'Loop', type: 'text', required: false },
-			{ name: 'instance', label: 'Instance', type: 'text', required: false },
-			{ name: 'criticalJob', label: 'Critical', type: 'text', required: false },
-			{ name: 'linuxRunTimeId', label: 'Linux PID', type: 'text', required: false },
-			{ name: 'linuxLog', label: 'Log', type: 'text', required: false }
+			{ name: 'scheduleId', label: 'Schedule Id', type: 'text', required: true, editform: true },
+			{ name: 'taskGroup', label: 'Task Group', type: 'text', required: true, editform: true },
+			{ name: 'instance', label: 'Instance', type: 'text', required: true, editform: true },			
+			{ name: 'scheduleType', label: 'Schedule Type', type: 'select', required: true, editform: true },
+			{ name: 'scheduleValue', label: 'Schedule Value', type: 'text', required: true, editform: true },
+			{ name: 'lastSchedule', label: 'Last Schedule', type: 'text', required: false, editform: true },
+			{ name: 'agent', label: 'Agent', type: 'text', required: true, editform: true },
+			{ name: 'validFrom', label: 'Valid from', type: 'text', required: true, editform: true },
+			{ name: 'validTo', label: 'Valid to', type: 'text', required: true, editform: true },
+			{ name: 'status', label: 'Status', type: 'text', required: true, editform: true },
+			{ name: 'criticalJob', label: 'Critical', type: 'text', required: false, editform: true },
+			{ name: 'numberAttempts', label: 'Attempts', type: 'text', required: false, editform: true },
+			{ name: 'prmt1', label: 'PRMT1', type: 'text', required: false, editform: true },
+			{ name: 'executing', label: 'executing', type: 'text', required: false, editform: false }
+
 			// Add more columns as needed
 		];
 
 
-		this.apiUrl = '/restExec'; // Replace with your API endpoint
+		this.apiUrl = '/restSchedule'; // Replace with your API endpoint
 		this.grid = document.getElementById('grid');
 		this.gridBody = document.getElementById('gridBody');
 		this.editForm = document.getElementById('editForm');
@@ -35,6 +33,18 @@ class ScheduleController {
 
 	createColumns() {
 		const headerRow = document.getElementById('headerRow');
+		
+		const addBtn = document.createElement('button');
+		addBtn.classList.add('gg-add');
+		addBtn.addEventListener('click', this.newRow.bind(this));
+		
+		const th = document.createElement('th');
+		th.classList.add('px-6');
+		th.classList.add('py-3');
+		th.scope = 'scope="col"';
+		th.textContent = '';
+		th.appendChild(addBtn);
+		headerRow.appendChild(th);
 
 		
 		for (const column of this.columns) {
@@ -50,9 +60,8 @@ class ScheduleController {
 	fetchData() {
 		const processFilter = document.getElementById('process').value.trim();
 		const instanceFilter = document.getElementById('instance').value.trim();
-		const statusFilter = document.getElementById('status').value.trim();
 
-		const url = `${this.apiUrl}?taskName=${processFilter}&instance=${instanceFilter}&status=${statusFilter}`;
+		const url = `${this.apiUrl}?taskGroup=${processFilter}&instance=${instanceFilter}`;
 
 		fetch(url)
 			.then(response => response.json())
@@ -72,6 +81,29 @@ class ScheduleController {
 			row.classList.add('border-b');
 			row.classList.add('dark:bg-gray-800');
 			row.classList.add('dark:border-gray-700');
+			
+			const actionsCell = document.createElement('td');
+			actionsCell.classList.add('flex');
+			actionsCell.classList.add('space-x-4');
+			actionsCell.classList.add('mt-5');
+			actionsCell.classList.add('px-6');
+			actionsCell.classList.add('py-4');			
+
+			const editBtn = document.createElement('button');
+			editBtn.classList.add('gg-pen');
+			editBtn.dataset.itemId = counter;
+			editBtn.addEventListener('click', this.editRow.bind(this));
+			actionsCell.appendChild(editBtn);
+
+			const deleteBtn = document.createElement('button');
+			deleteBtn.dataset.itemId = counter;
+			deleteBtn.classList.add('gg-trash');
+
+			deleteBtn.addEventListener('click', this.deleteRow.bind(this));
+
+			actionsCell.appendChild(deleteBtn);
+			
+			row.appendChild(actionsCell);
 
 
 			for (const column of this.columns) {
@@ -86,35 +118,6 @@ class ScheduleController {
 						cell.textContent = '' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
 					}
 				}
-				else if (column.name == 'status'){
-					
-					let statusDesc='';
-					
-					switch (item[column.name]) {
-							  case '1':
-							    statusDesc = 'Scheduled';
-							    cell.style = "font-weight: bold";
-							    break;
-							  case '2':
-							    statusDesc = 'Executing';
-							    cell.style = "font-weight: bold";
-							    break;
-							  case '3':
-							     statusDesc = 'Success';
-							     cell.style = "color:green; font-weight: bold";
-							    break;
-							  case '4':
-							    statusDesc = 'Error';
-							    cell.style = "color:red; font-weight: bold";
-							    break;
-							  case '5':
-								  statusDesc = 'Timeout';
-								  cell.style = "color:red; font-weight: bold";
-	  					}
-	  					cell.textContent = statusDesc;
-	  					
-						
-				}
 				else {
 					cell.textContent = item[column.name];
 				}
@@ -124,6 +127,13 @@ class ScheduleController {
 				cell.id = column.name + counter;
 				cell.classList.add('px-6');
 				cell.classList.add('py-4');
+				
+				console.log(item['executing']);
+				
+				if (item['executing'] == 'Y'){
+					console.log('entrou aqui');
+					row.classList.add('bg-red');
+				}
 				row.appendChild(cell);
 			}
 
@@ -154,25 +164,21 @@ class ScheduleController {
 	getItemById(itemId) {
 
 		const item = {
-			status: document.getElementById('status' + itemId).value,
-			scheduleStart: document.getElementById('scheduleStart' + itemId).value,
-			jobStart: document.getElementById('jobStart' + itemId).value,
-			rootPid: document.getElementById('rootPid' + itemId).value,
-			countTry: document.getElementById('countTry' + itemId).value,
-			agent: document.getElementById('agent' + itemId).value,
 			taskGroup: document.getElementById('taskGroup' + itemId).value,
-			pid: document.getElementById('pid' + itemId).value,
-			confId: document.getElementById('confId' + itemId).value,
-			taskOrder: document.getElementById('taskOrder' + itemId).value,
-			subTaskGroup: document.getElementById('subTaskGroup' + itemId).value,
-			subTaskGroupLevel: document.getElementById('subTaskGroupLevel' + itemId).value,
-			loopNum: document.getElementById('loopNum' + itemId).value,
 			instance: document.getElementById('instance' + itemId).value,
+			scheduleId: document.getElementById('scheduleId' + itemId).value,
+			scheduleType: document.getElementById('scheduleType' + itemId).value,
+			scheduleValue: document.getElementById('scheduleValue' + itemId).value,
+			lastSchedule: document.getElementById('lastSchedule' + itemId).value,
+			agent: document.getElementById('agent' + itemId).value,
+			validFrom: document.getElementById('validFrom' + itemId).value,
+			validTo: document.getElementById('validTo' + itemId).value,
+			status: document.getElementById('status' + itemId).value,
 			criticalJob: document.getElementById('criticalJob' + itemId).value,
-			linuxRunTimeId: document.getElementById('linuxRunTimeId' + itemId).value,
-			linuxLog: document.getElementById('linuxLog' + itemId).value
+			numberAttempts: document.getElementById('numberAttempts' + itemId).value,
+			prmt1: document.getElementById('prmt1' + itemId).value,
 		};
-
+		
 		return item;
 	}
 
@@ -183,30 +189,69 @@ class ScheduleController {
 		formFields.innerHTML = '';
 
 		for (const column of this.columns) {
-
+			
 			const label = document.createElement('label');
 			label.textContent = column.label;
-			const input = document.createElement('input');
-			input.type = 'text';
 
-			input.classList.add('border');
-			input.classList.add('border-gray-400');
-			input.classList.add('block');
-			input.classList.add('py-2');
-			input.classList.add('px-4');
-			input.classList.add('w-full');
-			input.classList.add('rounded');
-			input.classList.add('focus:outline-none');
-			input.classList.add('focus:border-orange-500');
-			input.required = column.required;
-			input.name = column.name;
-			input.id = column.name + 'Edit';
-			if (Object.keys(item).length != 0) {
-				input.value = item[column.name];
+			if (column.editform && column.type == 'text') {
+				
+				const input = document.createElement('input');
+				input.type = 'text';
+	
+				input.classList.add('border');
+				input.classList.add('border-gray-400');
+				input.classList.add('block');
+				input.classList.add('py-2');
+				input.classList.add('px-4');
+				input.classList.add('w-full');
+				input.classList.add('rounded');
+				input.classList.add('focus:outline-none');
+				input.classList.add('focus:border-orange-500');
+				input.required = column.required;
+				input.name = column.name;
+				input.id = column.name + 'Edit';
+				if (Object.keys(item).length != 0) {
+					input.value = item[column.name];
+				}
+	
+				formFields.appendChild(label);
+				formFields.appendChild(input);
+				
 			}
+			
+			if (column.editform && column.type == 'select'){
+					
+					const types = ['DAILY','WEEK','MONTH','YEAR','QUARTER','SEMESTER','DAY','BIWEEKLY','BUSINESSDAY'];
+				
+					const selectList = document.createElement("select");
+					
+					for (let i = 0; i < types.length; i++) {
+					    var option = document.createElement("option");
+					    option.value = types[i];
+					    option.text = types[i];
+					    selectList.appendChild(option);
+					}
+							
+					selectList.classList.add('border');
+					selectList.classList.add('border-gray-400');
+					selectList.classList.add('block');
+					selectList.classList.add('py-2');
+					selectList.classList.add('px-4');
+					selectList.classList.add('w-full');
+					selectList.classList.add('rounded');
+					selectList.classList.add('focus:outline-none');
+					selectList.classList.add('focus:border-orange-500');
+					selectList.name = column.name;
+					
+					selectList.id = column.name + 'Edit';
+					selectList.value = item[column.name];
+					formFields.appendChild(label);
+					formFields.appendChild(selectList);				 
+					
+			}
+			
 
-			formFields.appendChild(label);
-			formFields.appendChild(input);
+
 		}
 
 		this.editForm.style.display = 'block';
@@ -232,7 +277,7 @@ class ScheduleController {
 			},
 			body: JSON.stringify(data)
 		})
-			.then(response => {                      // first then()
+			.then(response => {
 				if (!response.ok) {
 					return response.text().then(text => { throw new Error(text) })
 				}
