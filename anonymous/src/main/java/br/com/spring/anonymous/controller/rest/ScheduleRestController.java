@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import br.com.spring.anonymous.controller.dto.IScheduleDto;
 import br.com.spring.anonymous.entity.Schedule;
 import br.com.spring.anonymous.repository.IScheduleDtoRepository;
@@ -32,15 +30,16 @@ public class ScheduleRestController {
 	
 		
 	@GetMapping
-	public List<IScheduleDto> GetById(@RequestParam("taskGroup") String p_task_group ,@RequestParam("instance") String p_instance) throws JsonProcessingException {
+	public List<IScheduleDto> GetById(@RequestParam("taskGroup") String p_task_group ,@RequestParam("instance") String p_instance) {
 		
-		return  _ScheduleDtoRepository.getSchedules(p_task_group, p_instance);
+		List<IScheduleDto> dto = _ScheduleDtoRepository.getSchedules(p_task_group, p_instance);
 		
-		//return result.stream()
-	           // .map(this::mapToScheduleDTO)
-	           // .collect(Collectors.toList());
-
-
+		
+		
+		dto.forEach(n -> System.out.println(n.hashCode()) );
+		
+		return  dto;
+		
 	}
 
 	@PostMapping

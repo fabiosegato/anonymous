@@ -180,6 +180,5 @@ public class Schedule {
 	public void setPrmt1(Integer prmt1) {
 		this.prmt1 = prmt1;
 	}
-
-	
+		
 }
